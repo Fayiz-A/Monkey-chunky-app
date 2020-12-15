@@ -1,49 +1,80 @@
-import React, { Component } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput} from 'react-native';
-import {Header} from 'react-native-elements';
+import * as React from 'react';
+import {
+  Text,
+  View,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+} from 'react-native';
+import { Header } from 'react-native-elements';
 
-// import CustomTextInput from './components/TextInput';
-
-export default class App extends React.Component{
-
+export default class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      displayText: ''
-    }
+      text: '',
+      displayText: '',
+    };
   }
-
   render() {
     return (
       <View style={styles.container}>
         <Header
-          // leftComponent={{ icon: 'menu', color: '#fff' }}
-          centerComponent={{ text: 'Monkey Chunky App', style: { color: '#fff', fontSize: 20, width: 1400 } }}
-          // rightComponent={{ icon: 'home', color: '#fff' }}
+          backgroundColor={'#9c8210'}
+          centerComponent={{
+            text: 'Monkey Chunky',
+            style: { color: '#fff', fontSize: 20 },
+          }}
         />
+
         <TextInput
-          style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
-          onChangeText={text => this.setState({
-            displayText: text,
-          })}
-          // value={value}
+          style={styles.inputBox}
+          onChangeText={text => {
+            this.setState({ text: text });
+          }}
+          value={this.state.text}
         />
-        {/* <TouchableOpacity onPress={() => {
-          this.setState({
-          })
-        }}><Text>Show Text</Text></TouchableOpacity> */}
-        <Text>{this.state.displayText}</Text>
+        <TouchableOpacity
+          style={styles.goButton}
+          onPress={() => {
+            this.setState({ displayText: this.state.text });
+          }}>
+          <Text style={styles.buttonText}>GO</Text>
+        </TouchableOpacity>
+        <Text style={styles.displayText}>{this.state.displayText}</Text>
       </View>
     );
   }
-
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: '#b8b8b8',
+  },
+  inputBox: {
+    marginTop: 200,
+    width: '80%',
+    alignSelf: 'center',
+    height: 40,
+    textAlign: 'center',
+    borderWidth: 4,
+    outline: 'none',
+  },
+  goButton: {
+    width: '50%',
+    height: 55,
+    alignSelf: 'center',
+    padding: 10,
+    margin: 10,
+  },
+  buttonText: {
+    textAlign: 'center',
+    fontSize: 30,
+    fontWeight: 'bold',
+  },
+  displayText: {
+    textAlign: 'center',
+    fontSize: 30,
   },
 });
