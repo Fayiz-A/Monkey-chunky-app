@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { Header } from 'react-native-elements';
 import phonemesJson from './databases/phonemes_db';
+import PhonicSoundButton from './components/PhonicSoundButton';
 
 export default class App extends React.Component {
   constructor() {
@@ -16,6 +17,8 @@ export default class App extends React.Component {
     this.state = {
       text: '',
       displayText: [],
+      soundChunk: [],
+
     };
   }
 
@@ -45,14 +48,19 @@ export default class App extends React.Component {
             // let result = phonemesJson.text.chunks.map((data) => {
             //   this.setState({displayText: data})
             this.setState({
-              displayText: phonemesJson[this.state.text].chunks
+              displayText: phonemesJson[this.state.text].chunks,
+              soundChunk: phonemesJson[this.state.text].phones
             })
           }}>
           <Text style={styles.buttonText}>GO</Text>
         </TouchableOpacity>
         <View>
           {this.state.displayText.map(data => {
-            return (<TouchableOpacity style={styles.displayTextButton}>{data}</TouchableOpacity>)
+            return (
+              <View>
+                <PhonicSoundButton wordChunk = {data} soundChunk = {this.state.soundChunk[this.state.displayText.indexOf(data)]}></PhonicSoundButton>
+              </View>
+            )
           })}
         </View>
                )
