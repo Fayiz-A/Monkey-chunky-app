@@ -18,7 +18,6 @@ export default class App extends React.Component {
       text: '',
       displayText: [],
       soundChunk: [],
-
     };
   }
 
@@ -47,18 +46,24 @@ export default class App extends React.Component {
             // let text = this.state.text;
             // let result = phonemesJson.text.chunks.map((data) => {
             //   this.setState({displayText: data})
+            let text = this.state.text.trim().toLowerCase().replace(" ", "");
+
+            console.log(text);
+
+            phonemesJson[text] ? 
             this.setState({
-              displayText: phonemesJson[this.state.text].chunks,
-              soundChunk: phonemesJson[this.state.text].phones
-            })
+              displayText: phonemesJson[text].chunks,
+              soundChunk: phonemesJson[text].phones,
+            }):alert('This yet doesn\'t exist in our database');
+            console.log(phonemesJson[this.state.text]);
           }}>
           <Text style={styles.buttonText}>GO</Text>
         </TouchableOpacity>
         <View>
-          {this.state.displayText.map(data => {
+          {this.state.displayText.map((data, index) => {
             return (
               <View>
-                <PhonicSoundButton wordChunk = {data} soundChunk = {this.state.soundChunk[this.state.displayText.indexOf(data)]}></PhonicSoundButton>
+                <PhonicSoundButton wordChunk = {data} soundChunk = {this.state.soundChunk[this.state.displayText.indexOf(data)]} index={index}></PhonicSoundButton>
               </View>
             )
           })}

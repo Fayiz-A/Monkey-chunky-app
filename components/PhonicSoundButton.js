@@ -9,8 +9,27 @@ import { Audio } from 'expo-av'
 
 export default class PhonicSoundButton extends React.Component {
 
+   constructor() {
+      super();
 
-   playPhonicSound = async (wordChunk) => {
+      this.state = {
+         indexList: []
+      }
+   }
+
+   playPhonicSound = async (wordChunk, index) => {
+      
+      console.log('1.' + this.state.indexList);
+
+      var indexList = this.state.indexList;
+      indexList = indexList.push(index);
+
+      this.setState({
+         indexList: indexList
+      });
+
+      console.log('2.' + this.state.indexList);
+
       var soundURL = "https://whitehatjrcontent.s3.ap-south-1.amazonaws.com/phones/" + wordChunk.toUpperCase() + ".mp3"
       await Audio.Sound.createAsync({
          uri: soundURL,
@@ -21,17 +40,18 @@ export default class PhonicSoundButton extends React.Component {
    }
 
    render() {
-      return (<View style = {styles.phonicSoundButtonSurrounding}>
+      let index = this.props.index;
+      return (<View style = {styles(this.state.indexList, index).phonicSoundButtonSurrounding}>
          <TouchableOpacity 
-         style = {styles.phonicSoundButton} 
-         onPress={() => { this.playPhonicSound(this.props.soundChunk) }}>
-            <Text style={styles.displayText}>
+         style = {styles(this.state.indexList, index).phonicSoundButton} 
+         onPress={() => { this.playPhonicSound(this.props.soundChunk, index) }}>
+            <Text style={styles(this.state.indexList, index).displayText}>
                {this.props.wordChunk}</Text></TouchableOpacity>
       </View>)
    }
 }
 
-const styles = StyleSheet.create({
+const styles = (indexList, index) => StyleSheet.create({
    phonicSoundButton: {
       width: '60%',
       height: 50,
@@ -41,7 +61,8 @@ const styles = StyleSheet.create({
       borderRadius: 10,
       marginLeft: 300,
       marginTop: 10,
-      backgroundColor: 'red'
+      backgroundColor: 'red',
+      opacity: indexList.includes(index) ? 0.5:1.0
    },
    displayText: {
       textAlign: 'center',
