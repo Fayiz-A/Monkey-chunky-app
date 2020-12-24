@@ -19,16 +19,13 @@ export default class PhonicSoundButton extends React.Component {
 
    playPhonicSound = async (wordChunk, index) => {
       
-      console.log('1.' + this.state.indexList);
 
       var indexList = this.state.indexList;
-      indexList = indexList.push(index);
+      indexList.push(index);
 
       this.setState({
          indexList: indexList
       });
-
-      console.log('2.' + this.state.indexList);
 
       var soundURL = "https://whitehatjrcontent.s3.ap-south-1.amazonaws.com/phones/" + wordChunk.toUpperCase() + ".mp3"
       await Audio.Sound.createAsync({
